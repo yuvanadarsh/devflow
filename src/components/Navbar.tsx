@@ -10,7 +10,7 @@ export default function Navbar() {
     setIsDark(!isDark);
   }
   return (
-    <div className="flex justify-between px-10 border-b">
+    <div className="flex justify-between px-10 border-b sticky top-0 backdrop-blur-2xl">
       <h1 className="text-2xl font-bold py-4">DevFlow</h1>
       <div className="flex flex-row items-center">
         <button onClick={handleChange} className="text-2xl">
