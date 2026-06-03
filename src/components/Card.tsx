@@ -1,8 +1,9 @@
-import { FaArrowRight } from "react-icons/fa";
+import { useState } from "react";
+import { FaArrowRight, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { TfiPencil } from "react-icons/tfi";
 
-export default function Card({ name, description, status }: { name: string; description: string; status: string }) {
+export default function Card({ name, description, status, saved }: { name: string; description: string; status: string; saved: boolean }) {
   function getColor(status: string) {
     if (status === "Completed") {
       return "bg-success";
@@ -12,6 +13,9 @@ export default function Card({ name, description, status }: { name: string; desc
       return "bg-neutral-400";
     }
   }
+
+  const [isSaved, setIsSaved] = useState<boolean>(saved);
+
   return (
     <>
       <div className="flex flex-col gap-2 w-full">
@@ -31,13 +35,16 @@ export default function Card({ name, description, status }: { name: string; desc
 
           {/* Right Side: Action Controls */}
           <div className="flex flex-row items-center gap-4 border-l border-text-primary/60 pl-6 shrink-0">
-            <button className="hover:text-primary transition-colors" aria-label="Edit project">
+            <button onClick={() => setIsSaved(!isSaved)}>
+              {isSaved ? <FaBookmark className="text-xl cursor-pointer hover:text-text-primary/60" /> : <FaRegBookmark className="text-xl cursor-pointer hover:text-text-primary/60" />}
+            </button>
+            <button className="hover:text-primary transition-colors cursor-pointer" aria-label="Edit project">
               <TfiPencil className="text-xl" />
             </button>
-            <button className="hover:text-red-600 transition-colors" aria-label="Delete project">
+            <button className="hover:text-red-600 transition-colors cursor-pointer" aria-label="Delete project">
               <FiTrash2 className="text-xl text-red-500" />
             </button>
-            <button className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity ml-2">
+            <button className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity ml-2 cursor-pointer">
               <p className="text-sm font-medium whitespace-nowrap">View more</p>
               <FaArrowRight className="text-lg" />
             </button>

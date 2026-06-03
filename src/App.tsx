@@ -7,10 +7,15 @@ import CreateCard from "./components/CreateCard";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [projectList, setProjectList] = useState(projects);
+
+  const handleAddProject = (newProj: any) => {
+    setProjectList([...projectList, newProj]);
+  };
 
   return (
     <>
-      {isModalOpen && <CreateCard onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <CreateCard onClose={() => setIsModalOpen(false)} onAddProject={handleAddProject} />}
       <div className="flex flex-col py-10 px-20 gap-10 min-h-screen text-text-primary">
         {/* Top Header Section */}
         <div className="flex flex-row justify-between items-end w-full">
@@ -59,6 +64,9 @@ function App() {
               <option value="descending" className="bg-slate-900 text-white">
                 Sort Z-A
               </option>
+              <option value="saved" className="bg-slate-900 text-white">
+                Saved
+              </option>
             </select>
           </div>
         </div>
@@ -77,7 +85,7 @@ function App() {
 
           <div className="flex flex-col gap-3">
             {projects.map((project) => (
-              <Card key={project.id} name={project.name} status={project.status} description={project.description} />
+              <Card key={project.id} name={project.name} status={project.status} description={project.description} saved={project.saved} />
             ))}
           </div>
         </div>
