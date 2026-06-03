@@ -1,6 +1,6 @@
 import "./App.css";
 import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
-import Card from "./components/card";
+import Card from "./components/Card";
 import { projects } from "./data/mockdata";
 
 function App() {
