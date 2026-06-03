@@ -1,6 +1,7 @@
 import "./App.css";
-import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa"; // Added some nice dashboard icons
+import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
 import Card from "./components/card";
+import { projects } from "./data/mockdata";
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
             <input
               type="text"
               placeholder="Search projects..."
-              className="bg-transparent border border-text-primary/20 hover:border-text-primary/40 focus:border-primary/60 rounded-xl pl-9 pr-4 py-2 text-sm outline-none transition-colors w-[240px]"
+              className="bg-transparent border border-text-primary/20 hover:border-text-primary/40 focus:border-primary/60 rounded-xl pl-9 pr-4 py-2 text-sm outline-none transition-colors w-60"
             />
           </div>
 
@@ -66,9 +67,9 @@ function App() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Card />
-          <Card />
-          <Card />
+          {projects.map((project) => (
+            <Card key={project.id} name={project.name} status={project.status} description={project.description} />
+          ))}
         </div>
       </div>
     </div>
