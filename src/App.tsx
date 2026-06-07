@@ -4,13 +4,16 @@ import Card from "./components/Card";
 import { projects } from "./data/mockdata";
 import { useState } from "react";
 import CreateCard from "./components/CreateCard";
+import type { Project } from "./types";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [projectList, setProjectList] = useState(projects);
+  const [projectsList, setProjects] = useState<Project[] | null>(null);
+  // const [loading, setLoading] = useState(true);
 
-  const handleAddProject = (newProj: any) => {
-    setProjectList([...projectList, newProj]);
+  const handleAddProject = (newProj: Project) => {
+    // If projectsList is null, fall back to an empty array [] before spreading
+    setProjects([...(projectsList || []), newProj]);
   };
 
   return (
@@ -84,9 +87,11 @@ function App() {
           </div>
 
           <div className="flex flex-col gap-3">
-            {projects.map((project) => (
-              <Card key={project.id} name={project.name} status={project.status} description={project.description} saved={project.saved} />
-            ))}
+            {projectsList ? (
+              projectsList.map((project) => <Card key={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} />)
+            ) : (
+              <p className="text-text-muted">No projects found. Create a project to display here.</p>
+            )}
           </div>
         </div>
       </div>

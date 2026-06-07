@@ -2,9 +2,17 @@ import { useState } from "react";
 import { FaArrowRight, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { TfiPencil } from "react-icons/tfi";
+import type { ProjectStatus } from "../types";
 
-export default function Card({ name, description, status, saved }: { name: string; description: string; status: string; saved: boolean }) {
-  function getColor(status: string) {
+interface CardProps {
+  name: string;
+  description: string;
+  status: ProjectStatus;
+  pinned: boolean;
+}
+
+export default function Card({ name, description, status, pinned }: CardProps) {
+  function getColor(status: ProjectStatus) {
     if (status === "Completed") {
       return "bg-success";
     } else if (status === "In Progress") {
@@ -14,7 +22,7 @@ export default function Card({ name, description, status, saved }: { name: strin
     }
   }
 
-  const [isSaved, setIsSaved] = useState<boolean>(saved);
+  const [isPinned, setIsPinned] = useState<boolean>(pinned);
 
   return (
     <>
@@ -35,8 +43,8 @@ export default function Card({ name, description, status, saved }: { name: strin
 
           {/* Right Side: Action Controls */}
           <div className="flex flex-row items-center gap-4 border-l border-text-primary/60 pl-6 shrink-0">
-            <button onClick={() => setIsSaved(!isSaved)}>
-              {isSaved ? <FaBookmark className="text-xl cursor-pointer hover:text-text-primary/60" /> : <FaRegBookmark className="text-xl cursor-pointer hover:text-text-primary/60" />}
+            <button onClick={() => setIsPinned(!isPinned)}>
+              {isPinned ? <FaBookmark className="text-xl cursor-pointer hover:text-text-primary/60" /> : <FaRegBookmark className="text-xl cursor-pointer hover:text-text-primary/60" />}
             </button>
             <button className="hover:text-primary transition-colors cursor-pointer" aria-label="Edit project">
               <TfiPencil className="text-xl" />

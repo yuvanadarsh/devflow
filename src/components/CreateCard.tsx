@@ -1,29 +1,46 @@
 import { FaXmark } from "react-icons/fa6";
-import { projects } from "../data/mockdata";
+// import { projects } from "../data/mockdata";
 import { useState } from "react";
+
+import { type ProjectStatus } from "../types/index";
 
 interface CreateCardProps {
   onClose: () => void;
   onAddProject: (project: any) => void;
 }
 
+// export interface Project {
+//   name: string;
+//   id: string;
+//   status: ProjectStatus;
+//   deadline: string;
+//   pinned: boolean;
+//   description: string;
+//   created_at: string;
+//   updated_at: string;
+// }
+
 export default function CreateCard({ onClose, onAddProject }: CreateCardProps) {
   const [name, setName] = useState<string>("");
-  const [status, setStatus] = useState<string>("In Progress");
+  const [status, setStatus] = useState<ProjectStatus>("In Progress");
   const [deadline, setDeadline] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    projects.push({
+    const newProject = {
       name: name,
       id: crypto.randomUUID(),
       status: status,
-      saved: false,
       deadline: deadline,
+      pinned: false,
       description: description,
-    });
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    onAddProject(newProject); // This changes to python fetch
 
     onClose();
   };
@@ -69,7 +86,7 @@ export default function CreateCard({ onClose, onAddProject }: CreateCardProps) {
                 id="status"
                 className="w-full h-10 bg-transparent border border-text-primary/20 hover:border-text-primary/40 focus:border-primary/60 rounded-xl px-3 text-sm outline-none transition-colors cursor-pointer"
                 defaultValue="In Progress"
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value as ProjectStatus)}
               >
                 <option value="Backlog" className="bg-slate-900 text-white">
                   Backlog
