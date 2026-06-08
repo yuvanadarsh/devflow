@@ -1,7 +1,6 @@
 import "./App.css";
 import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
 import Card from "./components/Card";
-import { projects } from "./data/mockdata";
 import { useEffect, useState } from "react";
 import CreateCard from "./components/CreateCard";
 import type { Project } from "./types";
@@ -100,10 +99,16 @@ function App() {
           </div>
 
           <div className="flex flex-col gap-3">
-            {projectsList ? (
-              projectsList.map((project) => <Card key={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} />)
+            {loading ? (
+              <>Loading...</>
             ) : (
-              <p className="text-text-muted">No projects found. Create a project to display here.</p>
+              <>
+                {projectsList ? (
+                  projectsList.map((project) => <Card key={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} />)
+                ) : (
+                  <p className="text-text-muted">No projects found. Create a project to display here.</p>
+                )}
+              </>
             )}
           </div>
         </div>

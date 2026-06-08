@@ -2,11 +2,11 @@ import { FaXmark } from "react-icons/fa6";
 // import { projects } from "../data/mockdata";
 import { useState } from "react";
 
-import { type ProjectStatus } from "../types/index";
+import { type Project, type ProjectStatus } from "../types/index";
 
 interface CreateCardProps {
   onClose: () => void;
-  onAddProject: (project: any) => void;
+  onAddProject: (project: Project) => void;
 }
 
 // export interface Project {
@@ -20,27 +20,53 @@ interface CreateCardProps {
 //   updated_at: string;
 // }
 
+async function createProject(newProject: Project): Promise<Project | null> {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(newProject),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // 3. Parse and type-cast the JSON result
+    const data: Project = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to execute POST request:", error);
+    return null;
+  }
+}
+
 export default function CreateCard({ onClose, onAddProject }: CreateCardProps) {
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<ProjectStatus>("In Progress");
   const [deadline, setDeadline] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newProject = {
+    const newProject: Project = {
       name: name,
       id: crypto.randomUUID(),
       status: status,
       deadline: deadline,
       pinned: false,
       description: description,
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: new Date().toString(),
+      updated_at: new Date().toString(),
     };
 
-    onAddProject(newProject); // This changes to python fetch
+    const created = await createProject(newProject);
+    if (created) {
+      onAddProject(created);
+      onClose();
+    }
 
     onClose();
   };

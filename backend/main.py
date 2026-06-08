@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database import engine, get_db, Base
 from models import Project, Note
 from schemas import ProjectCreate, ProjectResponse, NoteCreate, NoteResponse
+import time
 
 Base.metadata.create_all(bind=engine)
 
@@ -21,6 +22,7 @@ app.add_middleware(
 
 @app.get("/projects", response_model=list[ProjectResponse])
 def get_projects(db: Session = Depends(get_db)):
+    time.sleep(1)
     return db.query(Project).all()
 
 @app.get("/projects/{id}", response_model=ProjectResponse)
