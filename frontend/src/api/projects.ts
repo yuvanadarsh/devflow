@@ -1,7 +1,7 @@
 import { type Project } from "../types";
 
-async function getProjects(): Promise<Project[] | null> {
-  const url = "";
+export async function getProjects(): Promise<Project[] | null> {
+  const url = "http://localhost:8000/projects";
   try {
     const response = await fetch(url);
 

@@ -2,14 +2,27 @@ import "./App.css";
 import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
 import Card from "./components/Card";
 import { projects } from "./data/mockdata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateCard from "./components/CreateCard";
 import type { Project } from "./types";
+import { getProjects } from "./api/projects";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [projectsList, setProjects] = useState<Project[] | null>(null);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getProjects();
+      if (data) {
+        setProjects(data);
+      }
+      setLoading(false); // Turn off loading spinner/text
+    };
+
+    loadData();
+  }, []);
 
   const handleAddProject = (newProj: Project) => {
     // If projectsList is null, fall back to an empty array [] before spreading

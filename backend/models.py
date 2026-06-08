@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -22,7 +22,7 @@ class Note(Base):
     __tablename__ = "notes"
 
     id = Column(String, primary_key=True)
-    project_id = Column(String, nullable=False)
+    project_id = Column(String, ForeignKey("projects.id"), nullable=False)
     title = Column(String(200), nullable=False)
     content = Column(Text, nullable=True)
     type = Column(String(50), nullable=False, default="note")
