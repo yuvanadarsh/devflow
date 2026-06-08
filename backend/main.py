@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
+from fastapi import FastAPI, Depends, HTTPException # type: ignore
+from fastapi.middleware.cors import CORSMiddleware # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 from database import engine, get_db, Base
 from models import Project, Note
 from schemas import ProjectCreate, ProjectResponse, NoteCreate, NoteResponse
@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.get("/projects", response_model=list[ProjectResponse])
 def get_projects(db: Session = Depends(get_db)):
-    time.sleep(1) # Used to test if loading
+    # time.sleep(1) # Used to test if loading
     return db.query(Project).all()
 
 @app.get("/projects/{id}", response_model=ProjectResponse)
