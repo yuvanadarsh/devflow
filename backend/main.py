@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.get("/projects", response_model=list[ProjectResponse])
 def get_projects(db: Session = Depends(get_db)):
-    time.sleep(1)
+    time.sleep(1) # Used to test if loading
     return db.query(Project).all()
 
 @app.get("/projects/{id}", response_model=ProjectResponse)
