@@ -1,5 +1,5 @@
 import "./App.css";
-import { FaPlus, FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
+import { FaPlus, FaCheckCircle, FaClock, FaSearch, FaSpinner } from "react-icons/fa";
 import Card from "./components/Card";
 import { useEffect, useState } from "react";
 import CreateCard from "./components/CreateCard";
@@ -100,7 +100,11 @@ function App() {
 
           <div className="flex flex-col gap-3">
             {loading ? (
-              <>Loading...</>
+              <div className="flex flex-col items-center justify-center py-12 gap-3 text-text-primary/60">
+                {/* The magic happens right here with animate-spin */}
+                <FaSpinner className="text-3xl animate-spin text-primary" />
+                <span className="text-sm font-medium tracking-wide">Loading projects...</span>
+              </div>
             ) : (
               <>
                 {projectsList ? (

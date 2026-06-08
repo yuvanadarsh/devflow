@@ -5,6 +5,30 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>devflow</title>
+
+    <style>
+      /* Light mode background default */
+      html,
+      body {
+        background-color: white; /* Replace with your actual light theme hex if different */
+      }
+      /* Dark mode background override */
+      html.dark,
+      html.dark body {
+        background-color: var(--bg);
+      }
+    </style>
+
+    <script>
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
