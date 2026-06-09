@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import CreateCard from "./components/CreateCard";
 import type { Project } from "./types";
 import { getProjects } from "./api/projects";
+import EditCard from "./components/EditCard";
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<string>("");
   const [projectsList, setProjects] = useState<Project[] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +32,8 @@ function App() {
 
   return (
     <>
-      {isModalOpen && <CreateCard onClose={() => setIsModalOpen(false)} onCreate={refreshProjects} />}
+      {modalOpen === "Create" && <CreateCard onClose={() => setModalOpen("")} onCreate={refreshProjects} />}
+      {modalOpen === "Edit" && selectedProject && <EditCard onClose={() => setModalOpen("")} onEdit={refreshProjects} project={selectedProject} />}
       <div className="flex flex-col py-10 px-20 gap-10 min-h-screen text-text-primary">
         {/* Top Header Section */}
         <div className="flex flex-row justify-between items-end w-full">
@@ -92,7 +95,9 @@ function App() {
             <h1 className="text-3xl font-mono font-bold tracking-tight">Projects</h1>
             <button
               className="flex flex-row gap-2 items-center text-sm font-medium py-2 px-4 border border-primary/20 rounded-xl bg-secondary/80 hover:bg-secondary transition-all cursor-pointer shadow-sm"
-              onClick={() => setIsModalOpen(!isModalOpen)}
+              onClick={() => {
+                setModalOpen("Create");
+              }}
             >
               Create <FaPlus className="text-xs" />
             </button>
@@ -109,7 +114,15 @@ function App() {
               <>
                 {projectsList && projectsList.length > 0 ? (
                   projectsList.map((project) => (
-                    <Card key={project.id} id={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} onDelete={refreshProjects} />
+                    <Card
+                      key={project.id}
+                      project={project}
+                      onEdit={() => {
+                        setSelectedProject(project);
+                        setModalOpen("Edit");
+                      }}
+                      onDelete={refreshProjects}
+                    />
                   ))
                 ) : (
                   <p className="text-text-muted">No projects found. Create a project to display here.</p>
