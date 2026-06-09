@@ -1,6 +1,7 @@
 import { FaXmark } from "react-icons/fa6";
 // import { projects } from "../data/mockdata";
 import { useState } from "react";
+import { createProject } from "../api/projects";
 
 import { type Project, type ProjectStatus } from "../types/index";
 
@@ -19,28 +20,6 @@ interface CreateCardProps {
 //   created_at: string;
 //   updated_at: string;
 // }
-
-async function createProject(newProject: Project): Promise<Project | null> {
-  try {
-    const response = await fetch("http://127.0.0.1:8000/projects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(newProject),
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    // 3. Parse and type-cast the JSON result
-    const data: Project = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Failed to execute POST request:", error);
-    return null;
-  }
-}
 
 export default function CreateCard({ onClose, onCreate }: CreateCardProps) {
   const [name, setName] = useState<string>("");

@@ -22,7 +22,9 @@ export default function Navbar() {
 
   return (
     <div className="flex justify-between px-10 border-b sticky top-0 backdrop-blur-2xl">
-      <h1 className="text-2xl font-bold py-4">DevFlow</h1>
+      <h1 className="text-2xl font-bold py-4">
+        <a href="/">DevFlow</a>
+      </h1>
       <div className="flex flex-row items-center">
         <button onClick={() => setIsDark(!isDark)} className="text-2xl cursor-pointer">
           {isDark ? <IoSunnyOutline className="text-yellow-300" /> : <IoMoonOutline className="text-sky-800" />}
