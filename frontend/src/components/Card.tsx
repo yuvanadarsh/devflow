@@ -60,7 +60,9 @@ export default function Card({ project, onDelete, onEdit }: CardProps) {
               <FiTrash2 className="text-xl text-red-500" />
             </button>
             <button className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity ml-2 cursor-pointer">
-              <p className="text-sm font-medium whitespace-nowrap">View more</p>
+              <p className="text-sm font-medium whitespace-nowrap">
+                <a href={`/projects/${project.id}`}>View more</a>
+              </p>
               <FaArrowRight className="text-lg" />
             </button>
           </div>

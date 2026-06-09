@@ -94,3 +94,23 @@ export async function deleteProject(id: string) {
     console.error("Failed to execute DELETE request:", error);
   }
 }
+
+export async function getProject(id: string): Promise<Project | null> {
+  const url = `${BASE_URL}/projects/${id}`;
+  try {
+    const response = await fetch(url, {
+      method: `GET`,
+    });
+
+    if (!response.ok) {
+      throw new Error("Response Error!");
+    }
+
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
