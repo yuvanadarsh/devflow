@@ -6,7 +6,7 @@ import { type Project, type ProjectStatus } from "../types/index";
 
 interface CreateCardProps {
   onClose: () => void;
-  onAddProject: (project: Project) => void;
+  onCreate: () => void;
 }
 
 // export interface Project {
@@ -42,7 +42,7 @@ async function createProject(newProject: Project): Promise<Project | null> {
   }
 }
 
-export default function CreateCard({ onClose, onAddProject }: CreateCardProps) {
+export default function CreateCard({ onClose, onCreate }: CreateCardProps) {
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<ProjectStatus>("In Progress");
   const [deadline, setDeadline] = useState<string>("");
@@ -64,7 +64,7 @@ export default function CreateCard({ onClose, onAddProject }: CreateCardProps) {
 
     const created = await createProject(newProject);
     if (created) {
-      onAddProject(created);
+      onCreate();
       onClose();
     }
 

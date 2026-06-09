@@ -23,14 +23,14 @@ function App() {
     loadData();
   }, []);
 
-  const handleAddProject = (newProj: Project) => {
-    // If projectsList is null, fall back to an empty array [] before spreading
-    setProjects([...(projectsList || []), newProj]);
+  const refreshProjects = async () => {
+    const data = await getProjects();
+    if (data) setProjects(data);
   };
 
   return (
     <>
-      {isModalOpen && <CreateCard onClose={() => setIsModalOpen(false)} onAddProject={handleAddProject} />}
+      {isModalOpen && <CreateCard onClose={() => setIsModalOpen(false)} onCreate={refreshProjects} />}
       <div className="flex flex-col py-10 px-20 gap-10 min-h-screen text-text-primary">
         {/* Top Header Section */}
         <div className="flex flex-row justify-between items-end w-full">
@@ -107,8 +107,10 @@ function App() {
               </div>
             ) : (
               <>
-                {projectsList ? (
-                  projectsList.map((project) => <Card key={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} />)
+                {projectsList && projectsList.length > 0 ? (
+                  projectsList.map((project) => (
+                    <Card key={project.id} id={project.id} name={project.name} status={project.status} description={project.description} pinned={project.pinned} onDelete={refreshProjects} />
+                  ))
                 ) : (
                   <p className="text-text-muted">No projects found. Create a project to display here.</p>
                 )}

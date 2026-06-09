@@ -3,15 +3,18 @@ import { FaArrowRight, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { TfiPencil } from "react-icons/tfi";
 import type { ProjectStatus } from "../types";
+import { deleteProject } from "../api/projects";
 
 interface CardProps {
+  id: string;
   name: string;
   description: string;
   status: ProjectStatus;
   pinned: boolean;
+  onDelete: () => void;
 }
 
-export default function Card({ name, description, status, pinned }: CardProps) {
+export default function Card({ id, name, description, status, pinned, onDelete }: CardProps) {
   function getColor(status: ProjectStatus) {
     if (status === "Completed") {
       return "bg-success";
@@ -49,7 +52,14 @@ export default function Card({ name, description, status, pinned }: CardProps) {
             <button className="hover:text-primary transition-colors cursor-pointer" aria-label="Edit project">
               <TfiPencil className="text-xl" />
             </button>
-            <button className="hover:text-red-600 transition-colors cursor-pointer" aria-label="Delete project">
+            <button
+              className="hover:text-red-600 transition-colors cursor-pointer"
+              aria-label="Delete project"
+              onClick={async () => {
+                const result = await deleteProject(id);
+                if (result) onDelete();
+              }}
+            >
               <FiTrash2 className="text-xl text-red-500" />
             </button>
             <button className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity ml-2 cursor-pointer">
